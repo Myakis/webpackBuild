@@ -25,6 +25,8 @@
     "@babel/plugin-proposal-class-properties": "^7.16.7",
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "@babel/preset-typescript": "^7.16.7",
     "babel-loader": "^8.2.4",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^10.2.4",
@@ -45,6 +47,8 @@
   "dependencies": {
     "csv-loader": "^3.0.3",
     "normalize.css": "^8.0.1",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "xml-loader": "^1.2.1"
   }
 }

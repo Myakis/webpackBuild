@@ -37,12 +37,25 @@ const cssLoaders = extra => {
   }
   return loaders;
 };
+const babelOptions = preset => {
+  const opts = {
+    loader: 'babel-loader',
+    options: {
+      presets: ['@babel/preset-env'],
+      plugins: ['@babel/plugin-proposal-class-properties'],
+    },
+  };
+  if (preset) {
+    opts.options.presets.push(preset);
+  }
+  return opts;
+};
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
   entry: {
-    main: ['@babel/polyfill', './index.js'],
-    analytics: './analytics.js',
+    main: ['@babel/polyfill', './index.jsx'],
+    analytics: './analytics.ts',
   },
   output: {
     filename: filename('js'),
@@ -58,6 +71,7 @@ module.exports = {
     port: 4200,
     hot: isDev,
   },
+  devtool: isDev ? 'source-map' : 'eval',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html',
@@ -111,13 +125,17 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-            plugins: ['@babel/plugin-proposal-class-properties'],
-          },
-        },
+        use: babelOptions(),
+      },
+      {
+        test: /\.ts$/,
+        exclude: /node_modules/,
+        use: babelOptions('@babel/preset-typescript'),
+      },
+      {
+        test: /\.jsx$/,
+        exclude: /node_modules/,
+        use: babelOptions('@babel/preset-react'),
       },
     ],
   },
