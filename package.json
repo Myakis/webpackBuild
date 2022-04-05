@@ -1,0 +1,26 @@
+{
+  "name": "webpack-2022",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production"
+  },
+  "keywords": [
+    "js",
+    "javascript",
+    "webpack",
+    "react",
+    "ts",
+    "typescript"
+  ],
+  "author": "andrew myaskishev",
+  "license": "ISC",
+  "devDependencies": {
+    "clean-webpack-plugin": "^4.0.0",
+    "html-webpack-plugin": "^5.5.0",
+    "webpack": "^5.71.0",
+    "webpack-cli": "^4.9.2"
+  }
+}
