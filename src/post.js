@@ -12,3 +12,7 @@ export class Post {
     });
   }
 }
+export const asyncFn = async () => {
+  const text = await 'asfsgs';
+  console.log(text);
+};

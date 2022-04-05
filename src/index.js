@@ -15,3 +15,5 @@ const post = new Post('Webpack', webpackLogo);
 
 console.log(JSON.parse(post.toString()));
 console.log(json);
+import { asyncFn } from './post';
+asyncFn();
