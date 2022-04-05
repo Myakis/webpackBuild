@@ -11,6 +11,19 @@ module.exports = {
   output: {
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
+    assetModuleFilename: '[path]/[name][ext]',
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
+  resolve: {
+    extensions: ['.js', '.json', '.png', '.svg', '.jpg', '.jpeg'],
+    alias: {},
+  },
+  devServer: {
+    port: 4200,
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -28,26 +41,23 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(png|jpeg|svg|gif|jpg)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: 'img/[name].[ext]',
-            },
-          },
-        ],
+        test: /\.(png|jpg|jpeg|svg|gif)$/,
+        type: 'asset/resource',
+        // options: { name: [`[path][name][ext]`] },
       },
+
       {
         test: /\.(ttf|woff|woff2)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: 'fonts/[name].[ext]',
-            },
-          },
-        ],
+        type: 'asset/resource',
+      },
+      {
+        test: /\.xml$/,
+        use: ['xml-loader'],
+      },
+      {
+        //Установить papaparse
+        test: /\.csv$/,
+        use: ['csv-loader'],
       },
     ],
   },
