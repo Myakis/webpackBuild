@@ -1,0 +1,22 @@
+@import url('~normalize.css');
+@import url('fonts.css');
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+h1 {
+  font-size: 50px;
+  text-align: center;
+}
+.logo {
+  height: 200px;
+  width: 100%;
+  margin: 0 auto;
+  background: url('../assets/img/photo_2021-10-19_15-46-37.jpg') center / cover no-repeat;
+}
+.logo2 {
+  height: 200px;
+  width: 100%;
+  margin: 0 auto;
+  background: url('../assets/img/webpack-logo.png') center / cover no-repeat;
+}
