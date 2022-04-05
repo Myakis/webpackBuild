@@ -3,6 +3,7 @@ import { Post } from './post';
 
 //Работа со стилями
 import './styles/styles.css';
+import './styles/sass.scss';
 
 //Работа с json
 import json from './assets/data-base.json';
