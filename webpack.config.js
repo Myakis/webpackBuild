@@ -32,54 +32,70 @@ const cssLoaders = extra => {
     },
     'css-loader',
   ];
+
   if (extra) {
     loaders.push(extra);
   }
   return loaders;
 };
+
 const babelOptions = preset => {
   const opts = {
-    loader: 'babel-loader',
-    options: {
-      presets: ['@babel/preset-env'],
-      plugins: ['@babel/plugin-proposal-class-properties'],
-    },
+    presets: ['@babel/preset-env'],
+    plugins: ['@babel/plugin-proposal-class-properties'],
   };
   if (preset) {
-    opts.options.presets.push(preset);
+    opts.presets.push(preset);
   }
   return opts;
+};
+
+const jsLoaders = () => {
+  const loaders = [{ loader: 'babel-loader', options: babelOptions() }];
+  if (isDev) {
+    loaders.push('eslint-loader');
+  }
+  return loaders;
 };
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
   entry: {
     main: ['@babel/polyfill', './index.jsx'],
-    analytics: './analytics.ts',
+    //Для отдельно подключаеммых js файлов
+    // analytics:'analytics'
   },
+
   output: {
     filename: filename('js'),
     path: path.resolve(__dirname, 'dist'),
-    // assetModuleFilename: '[path]/[name][ext]',
+    assetModuleFilename: '[path]/[name][ext]',
   },
   optimization: optimization(),
+
   resolve: {
     extensions: ['.js', '.json', '.png', '.svg', '.jpg', '.jpeg'],
     alias: {},
   },
+
   devServer: {
     port: 4200,
     hot: isDev,
   },
+
   devtool: isDev ? 'source-map' : 'eval',
+
   plugins: [
+    //HTML plugin
     new HtmlWebpackPlugin({
       template: './index.html',
       minify: isProd,
       inject: 'body',
       scriptLoading: 'blocking',
     }),
+    //Clear plugin
     new CleanWebpackPlugin(),
+    //Copy files plugin
     new CopyWebpackPlugin({
       patterns: [
         {
@@ -102,40 +118,45 @@ module.exports = {
         test: /\.s[ac]ss$/,
         use: cssLoaders('sass-loader'),
       },
-
+      //Loading img
       {
         test: /\.(png|jpg|jpeg|svg|gif)$/,
         type: 'asset/resource',
-        // options: { name: [`[path][name][ext]`] },
       },
-
+      //Loading fonts
       {
         test: /\.(ttf|woff|woff2)$/,
         type: 'asset/resource',
       },
+      //Loading XML
       {
         test: /\.xml$/,
         use: ['xml-loader'],
       },
+      //Loading CSV
       {
         //Установить papaparse
         test: /\.csv$/,
         use: ['csv-loader'],
       },
+      //Babel Js
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: babelOptions(),
+        use: { loader: 'babel-loader', options: babelOptions() },
       },
+      //Babel TS
       {
         test: /\.ts$/,
         exclude: /node_modules/,
-        use: babelOptions('@babel/preset-typescript'),
+        use: { loader: 'babel-loader', options: babelOptions('@babel/preset-typescript') },
       },
+
+      //Babel React JSX
       {
         test: /\.jsx$/,
         exclude: /node_modules/,
-        use: babelOptions('@babel/preset-react'),
+        use: { loader: 'babel-loader', options: babelOptions('@babel/preset-react') },
       },
     ],
   },
